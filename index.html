@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CRISC Study App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">CRISC</span>
+      <strong>Study App</strong>
+    </div>
+    <div class="stats" aria-label="Progress">
+      <div><strong id="answeredCount">0</strong><span>Answered</span></div>
+      <div><strong id="correctCount">0</strong><span>Correct</span></div>
+      <div><strong id="knownCount">0</strong><span>Known</span></div>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Main navigation">
+    <label class="section-picker">Section <select id="sectionSelect"></select></label>
+    <button class="tab is-active" data-view="practiceView">Practice</button>
+    <button class="tab" data-view="flashcardView">Flashcards</button>
+    <button class="tab" data-view="reviewView">Review</button>
+    <button class="tab" data-view="libraryView">Library</button>
+    <button class="tab" data-view="importView">Import</button>
+    <span class="nav-spacer"></span>
+    <button id="saveSession" class="session-button">Save Session</button>
+    <button id="resumeSession" class="session-button ghost">Resume</button>
+  </nav>
+
+  <main>
+    <section id="practiceView" class="view is-active">
+      <div class="toolbar">
+        <label>Topic <select id="questionTopic"></select></label>
+        <label>Mode <select id="studyMode"><option value="study">Study</option><option value="exam">Exam</option></select></label>
+        <label>Questions <input id="questionLimit" type="number" min="1" value="50"></label>
+        <button id="shuffleQuestions" class="ghost">Shuffle</button>
+        <button id="resetQuestions" class="ghost danger">Reset</button>
+      </div>
+
+      <article class="panel question-panel">
+        <div class="panel-head">
+          <div><p id="questionMeta" class="eyebrow">Question</p><h2 id="questionTitle">Upload a question file</h2></div>
+          <button id="markQuestion" class="mark-button" aria-pressed="false">Mark</button>
+        </div>
+        <p id="scenarioText" class="scenario">Use the Import tab to upload TXT files. Each uploaded question file becomes a new section.</p>
+        <p id="questionText" class="question-text">No questions loaded yet.</p>
+        <div id="answerChoices" class="choices"></div>
+        <div id="answerFeedback" class="feedback" hidden></div>
+        <div class="pager"><button id="previousQuestion" class="ghost">Previous</button><span id="questionPosition">0 / 0</span><button id="nextQuestion">Next</button></div>
+      </article>
+    </section>
+
+    <section id="flashcardView" class="view">
+      <div class="toolbar">
+        <label>Topic <select id="cardTopic"></select></label>
+        <label>Flashcards <input id="cardLimit" type="number" min="1" value="50"></label>
+        <button id="shuffleCards" class="ghost">Shuffle</button>
+        <button id="resetCards" class="ghost danger">Reset</button>
+      </div>
+
+      <article class="panel card-panel">
+        <div class="panel-head">
+          <div><p id="cardMeta" class="eyebrow">Flashcard</p><h2 id="cardTitle">Upload a flashcard file</h2></div>
+          <span id="cardStatus" class="status-pill">New</span>
+        </div>
+        <button id="flashcardFace" class="flashcard-face">Use the Import tab to upload flashcards.</button>
+        <div class="pager"><button id="previousCard" class="ghost">Previous</button><button id="flipCard" class="ghost">Flip</button><button id="reviewCard" class="secondary">Review</button><button id="knowCard">Know</button><button id="nextCard" class="ghost">Next</button></div>
+      </article>
+    </section>
+
+    <section id="reviewView" class="view">
+      <div class="review-grid">
+        <article class="panel"><p class="eyebrow">Practice</p><h2 id="practiceSummary">No answers yet</h2><div id="weakTopicList" class="topic-list"></div></article>
+        <article class="panel"><p class="eyebrow">Marked and missed</p><h2 id="reviewSummary">Nothing marked</h2><div id="reviewList" class="review-list"></div></article>
+      </div>
+    </section>
+
+    <section id="libraryView" class="view">
+      <div class="toolbar"><label>Search <input id="librarySearch" type="search" placeholder="Topic, question, scenario, or card"></label></div>
+      <div id="libraryList" class="library-list"></div>
+    </section>
+
+    <section id="importView" class="view">
+      <div class="import-grid">
+        <article class="panel import-panel">
+          <p class="eyebrow">Question Import</p><h2>Upload Questions TXT</h2>
+          <p class="muted">Each uploaded question file becomes a new section.</p>
+          <label class="file-picker">Question file <input id="questionFileInput" type="file" accept=".txt,text/plain"></label>
+          <button id="deleteSection" class="ghost danger">Delete Current Imported Section</button>
+          <pre class="format-box">Title: Risk ownership
+Topic: Governance
+Scenario: A business unit assigns a risk to IT even though the process owner controls funding.
+Question: Which action is BEST?
+A: Keep ownership with IT because the risk is technical.
+B: Assign ownership to the accountable business process owner.
+C: Ask internal audit to own the risk.
+D: Accept the risk until budget is available.
+Answer: B
+Closest: A
+Explanation: Risk ownership belongs with the person accountable for the affected objective.</pre>
+        </article>
+        <article class="panel import-panel">
+          <p class="eyebrow">Flashcard Import</p><h2>Upload Flashcards TXT</h2>
+          <p class="muted">Each uploaded flashcard file becomes a new section.</p>
+          <label class="file-picker">Flashcard file <input id="flashcardFileInput" type="file" accept=".txt,text/plain"></label>
+          <pre class="format-box">Title: Risk appetite
+Topic: Appetite
+Front: What is risk appetite?
+Back: The amount and type of risk an enterprise is willing to pursue or retain.</pre>
+        </article>
+      </div>
+      <div id="importStatus" class="import-status"></div>
+    </section>
+  </main>
+
+  <footer>Original local study app. Your uploaded TXT content is stored only in your browser local storage.</footer>
+  <script src="app.js"></script>
+</body>
+</html>
