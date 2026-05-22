@@ -2,12 +2,15 @@
   const letters = ["A", "B", "C", "D"];
   const customKey = "crisc-custom-sections";
   const activeKey = "crisc-active-section";
+  const sessionMetaKey = "crisc-exam-last-session";
 
   const app = {
     section: document.getElementById("sectionSelect"),
     topic: document.getElementById("questionTopic"),
     mode: document.getElementById("studyMode"),
     limit: document.getElementById("questionLimit"),
+    save: document.getElementById("saveSession"),
+    resume: document.getElementById("resumeSession"),
     practiceTab: document.querySelector('[data-view="practiceView"]'),
     shuffle: document.getElementById("shuffleQuestions")
   };
@@ -30,7 +33,8 @@
         <label>Questions <input id="examStartLimit" type="number" min="1" value="50"></label>
       </div>
       <div class="exam-start-actions">
-        <button id="examStartButton" type="button">Start Test</button>
+        <button id="examStartButton" type="button">Start New Test</button>
+        <button id="examResumeButton" class="ghost" type="button">Resume Last Session</button>
         <label class="file-picker">Upload Questions TXT <input id="examQuestionFile" type="file" accept=".txt,text/plain"></label>
         <label class="file-picker">Upload Flashcards TXT <input id="examFlashcardFile" type="file" accept=".txt,text/plain"></label>
       </div>
@@ -48,12 +52,20 @@
   settingsButton.textContent = "Settings";
   document.body.append(settingsButton);
 
+  const saveButton = document.createElement("button");
+  saveButton.id = "examSaveButton";
+  saveButton.className = "exam-save-button";
+  saveButton.type = "button";
+  saveButton.textContent = "Save Session";
+  document.body.append(saveButton);
+
   const start = {
     section: document.getElementById("examStartSection"),
     topic: document.getElementById("examStartTopic"),
     mode: document.getElementById("examStartMode"),
     limit: document.getElementById("examStartLimit"),
     button: document.getElementById("examStartButton"),
+    resume: document.getElementById("examResumeButton"),
     questionFile: document.getElementById("examQuestionFile"),
     flashcardFile: document.getElementById("examFlashcardFile"),
     status: document.getElementById("examStartStatus")
@@ -133,6 +145,46 @@
 
     app.practiceTab?.click();
     app.shuffle?.click();
+    document.body.classList.add("exam-active");
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+
+  function saveExamSession() {
+    localStorage.setItem(sessionMetaKey, JSON.stringify({
+      section: app.section.value,
+      topic: app.topic.value,
+      mode: app.mode.value,
+      limit: app.limit.value,
+      savedAt: new Date().toISOString()
+    }));
+    app.save?.click();
+
+    const oldText = saveButton.textContent;
+    saveButton.textContent = "Saved";
+    window.setTimeout(() => {
+      saveButton.textContent = oldText;
+    }, 1200);
+  }
+
+  function resumeLastSession() {
+    let meta = null;
+    try {
+      meta = JSON.parse(localStorage.getItem(sessionMetaKey) || "null");
+    } catch {
+      meta = null;
+    }
+
+    if (meta?.section && hasOption(app.section, meta.section)) {
+      setControl(app.section, meta.section, false);
+    }
+
+    app.resume?.click();
+
+    if (meta?.topic && hasOption(app.topic, meta.topic)) setControl(app.topic, meta.topic);
+    if (meta?.mode) setControl(app.mode, meta.mode);
+    if (meta?.limit) setControl(app.limit, String(clamp(meta.limit, 1, app.limit.max)));
+
+    app.practiceTab?.click();
     document.body.classList.add("exam-active");
     window.scrollTo({ top: 0, behavior: "auto" });
   }
@@ -263,8 +315,10 @@
     start.limit.value = String(clamp(start.limit.value, 1, start.limit.max));
   });
   start.button.addEventListener("click", startExam);
+  start.resume.addEventListener("click", resumeLastSession);
   start.questionFile.addEventListener("change", () => importFile(start.questionFile.files[0], "questions"));
   start.flashcardFile.addEventListener("change", () => importFile(start.flashcardFile.files[0], "flashcards"));
+  saveButton.addEventListener("click", saveExamSession);
   settingsButton.addEventListener("click", showSettings);
 
   new MutationObserver(syncStartScreen).observe(app.section, { childList: true, subtree: true, attributes: true });
