@@ -1,0 +1,208 @@
+.exam-start-screen {
+  width: min(100% - 28px, 980px);
+  margin: 22px auto 28px;
+  display: grid;
+  gap: 18px;
+}
+
+.exam-start-card {
+  background: #1d2735;
+  border: 1px solid #334052;
+  border-radius: 12px;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
+  padding: clamp(18px, 4vw, 34px);
+}
+
+.exam-start-title {
+  margin: 0 0 8px;
+  color: #f4f5f7;
+  font-size: clamp(30px, 6vw, 54px);
+  line-height: 1;
+  font-weight: 900;
+}
+
+.exam-start-subtitle {
+  margin: 0 0 24px;
+  color: #a7afbc;
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.exam-start-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.exam-start-grid label {
+  width: 100%;
+  min-width: 0;
+}
+
+.exam-start-grid select,
+.exam-start-grid input {
+  width: 100%;
+}
+
+.exam-start-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.exam-start-actions button,
+.exam-start-actions label {
+  flex: 1 1 190px;
+}
+
+.exam-start-actions label {
+  display: grid;
+  min-width: 0;
+}
+
+.exam-start-status {
+  min-height: 44px;
+  border: 1px solid #334052;
+  border-radius: 8px;
+  background: #202b3a;
+  color: #dbe4ef;
+  padding: 12px 14px;
+  font-weight: 800;
+}
+
+.exam-start-status:empty {
+  display: none;
+}
+
+body:not(.exam-active) .topbar,
+body:not(.exam-active) .tabs,
+body:not(.exam-active) main,
+body:not(.exam-active) footer {
+  display: none;
+}
+
+body.exam-active .exam-start-screen,
+body.exam-active .topbar,
+body.exam-active .tabs,
+body.exam-active #practiceView .toolbar,
+body.exam-active footer,
+body.exam-active #flashcardView,
+body.exam-active #reviewView,
+body.exam-active #libraryView,
+body.exam-active #importView {
+  display: none;
+}
+
+body.exam-active main {
+  display: block;
+  width: min(100% - 20px, 980px);
+  margin: 10px auto 18px;
+  padding-top: 0;
+}
+
+body.exam-active #practiceView.view {
+  display: block;
+}
+
+body.exam-active .question-panel {
+  width: 100%;
+  min-height: auto;
+}
+
+body.exam-active .panel-head {
+  padding: clamp(18px, 4vw, 38px);
+}
+
+body.exam-active .panel-head h2 {
+  margin-top: 16px;
+  font-size: clamp(30px, 7vw, 48px);
+}
+
+body.exam-active .mark-button {
+  min-width: 150px;
+  min-height: 72px;
+  font-size: clamp(22px, 5vw, 34px);
+}
+
+body.exam-active .scenario,
+body.exam-active .question-text {
+  color: #e1791b;
+  margin-inline: clamp(18px, 4vw, 38px);
+  font-size: clamp(34px, 8vw, 64px);
+  line-height: 1.17;
+  font-weight: 900;
+}
+
+body.exam-active .scenario {
+  margin-top: clamp(26px, 5vw, 52px);
+}
+
+body.exam-active .question-text {
+  margin-top: clamp(30px, 5vw, 54px);
+}
+
+body.exam-active .choices {
+  margin: clamp(28px, 5vw, 52px) clamp(18px, 4vw, 38px) clamp(18px, 4vw, 38px);
+  gap: 14px;
+}
+
+body.exam-active .choice {
+  min-height: clamp(78px, 16vw, 118px);
+  padding: clamp(18px, 4vw, 30px);
+  border-radius: 18px;
+  grid-template-columns: 28px minmax(0, 1fr);
+}
+
+body.exam-active .choice-letter {
+  width: 28px;
+  height: 28px;
+}
+
+body.exam-active .choice span:last-child {
+  font-size: clamp(22px, 5vw, 34px);
+  line-height: 1.35;
+}
+
+body.exam-active .pager {
+  padding: 16px clamp(18px, 4vw, 38px);
+}
+
+.exam-settings-button {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  z-index: 50;
+  min-height: 44px;
+  border-radius: 999px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.34);
+}
+
+body:not(.exam-active) .exam-settings-button {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .exam-start-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .exam-start-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  body.exam-active main {
+    width: calc(100% - 20px);
+    margin-top: 10px;
+  }
+
+  body.exam-active .panel-head {
+    display: grid;
+    gap: 18px;
+  }
+
+  body.exam-active .mark-button {
+    width: 150px;
+  }
+}
