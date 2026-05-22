@@ -180,9 +180,9 @@
 
     app.resume?.click();
 
-    if (meta?.topic && hasOption(app.topic, meta.topic)) setControl(app.topic, meta.topic);
-    if (meta?.mode) setControl(app.mode, meta.mode);
-    if (meta?.limit) setControl(app.limit, String(clamp(meta.limit, 1, app.limit.max)));
+    if (meta?.topic && hasOption(app.topic, meta.topic)) app.topic.value = meta.topic;
+    if (meta?.mode) app.mode.value = meta.mode;
+    if (meta?.limit) app.limit.value = String(clamp(meta.limit, 1, app.limit.max));
 
     app.practiceTab?.click();
     document.body.classList.add("exam-active");
