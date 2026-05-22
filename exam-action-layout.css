@@ -1,0 +1,55 @@
+body.exam-active .panel-head {
+  align-items: flex-start;
+}
+
+body.exam-active .panel-head > div:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+body.exam-active .exam-session-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0 0 auto;
+  gap: 10px;
+}
+
+body.exam-active .exam-session-actions button {
+  min-height: 46px;
+  padding: 0 14px;
+  white-space: nowrap;
+}
+
+body.exam-active .exam-session-actions .mark-button {
+  min-width: 100px;
+  min-height: 46px;
+  font-size: clamp(16px, 2vw, 20px);
+}
+
+body.exam-active .exam-session-actions .exam-settings-button,
+body.exam-active .exam-session-actions .exam-save-button {
+  position: static;
+  inset: auto;
+  min-height: 46px;
+  border-radius: 8px;
+  background: transparent;
+  color: #f4f5f7;
+  border-color: #4a566a;
+  box-shadow: none;
+}
+
+@media (max-width: 720px) {
+  body.exam-active .exam-session-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  body.exam-active .exam-session-actions button,
+  body.exam-active .exam-session-actions .mark-button {
+    width: 100%;
+    min-width: 0;
+    padding: 0 10px;
+  }
+}
