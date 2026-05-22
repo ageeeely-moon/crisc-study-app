@@ -75,6 +75,11 @@
   display: none;
 }
 
+.exam-start-status.is-error {
+  border-color: rgba(249, 112, 102, 0.72);
+  color: #ffb4ae;
+}
+
 body:not(.exam-active) .topbar,
 body:not(.exam-active) .tabs,
 body:not(.exam-active) main,
